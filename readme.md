@@ -7,7 +7,7 @@ All the info you need in your lists.
 	use Sirprize\Paginate\Paginator;
 
 	$p = new Paginator();
-    $p->calculateFromCurrentPage(189678, 45, 100);
+    $p->calculateFromCurrentPage(189678, 45, 100); // $numItems, $currentPage, $numItemsPerPage
 
 	// optional view configuration
 	$p->setBaseUrl('/products')->setPageParam('p');
