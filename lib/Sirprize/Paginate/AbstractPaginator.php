@@ -43,7 +43,6 @@ abstract class AbstractPaginator
     protected $baseUrl = null;
     protected $pageParam = 'page';
     
-    abstract function start($numItems);
     public function isOutOfBounds() { return $this->isOutOfBounds; }
     public function getNumItems() { return $this->numItems; }
     public function getNumItemsPerPage() { return $this->numItemsPerPage; }
