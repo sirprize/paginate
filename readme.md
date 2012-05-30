@@ -9,6 +9,8 @@ Keep track of indices, items and pages when slicing lists of a known length.
 3. Start pager with user input
 4. Define the slice (eg run a complex query with a `LIMIT` expression)
 
+### Usage
+
 	use Sirprize\Paginate\CurrentPagePaginator;
 
 	$p = new CurrentPagePaginator(45, 100); // $currentPage, $numItemsPerPage
@@ -20,6 +22,8 @@ Keep track of indices, items and pages when slicing lists of a known length.
 2. Grab the current range from user input (eg from a HTTP header - `Range: tems=40-49`)
 3. Start pager with user input
 4. Define the slice (eg run a complex query with a `LIMIT` expression)
+
+### Usage
 
 	use Sirprize\Paginate\IndexRangePaginator;
 

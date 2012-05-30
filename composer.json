@@ -1,7 +1,7 @@
 {
     "name": "sirprize/paginate",
     "type": "library",
-    "description": "All the info you need in your lists",
+    "description": "Keep track of indices, items and pages when slicing lists of a known length",
     "keywords": ["pager", "pagination", "paginator"],
     "homepage": "https://github.com/sirprize/paginate",
     "license": "MIT",
