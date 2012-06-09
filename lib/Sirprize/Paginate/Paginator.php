@@ -8,26 +8,28 @@
 
 namespace Sirprize\Paginate;
 
+use Sirprize\Paginate\Range\PageRange;
+
 /**
- * Paginator - All the info you need in your lists.
+ * Paginator.
  *
  * @author Christian Hoegl <chrigu@sirprize.me>
  */
-abstract class AbstractPaginator
+class Paginator
 {
 
     // invalid request
     protected $isOutOfBounds = false;
 
     // items
-    protected $numItems = null;
+    protected $totalItems = 0;
     protected $numItemsPerPage = null;
-    protected $numItemsOnCurrentPage = null;
-    protected $firstItemOnCurrentPage = null;
+    protected $numItemsOnCurrentPage = 0;
+    protected $firstItemOnCurrentPage = null; // starts at 1
     protected $lastItemOnCurrentPage = null;
 
     // pages
-    protected $numPages = null;
+    protected $numPages = 0;
     protected $currentPage = null;
     protected $previousPage = null;
     protected $nextPage = null;
@@ -35,16 +37,79 @@ abstract class AbstractPaginator
     protected $lastPage = null;
 
     // indices
-    protected $offset = null; // range start index
-    protected $last = null; // range end index
+    protected $offset = null; // starts at 0
+    protected $last = null;
 
     // url stuff
     protected $params = array();
     protected $baseUrl = null;
     protected $pageParam = 'page';
     
+    public function __construct(PageRange $pageRange)
+    {
+        $currentPage = $pageRange->getCurrentPage();
+        $numItemsPerPage = $pageRange->getNumItems();
+        $totalItems = $pageRange->getTotalItems();
+        
+        if(!$totalItems)
+        {
+            $this->isOutOfBounds = true;
+            $this->numItemsPerPage = $numItemsPerPage;
+            return;
+        }
+        
+        $isOutOfBounds = ($currentPage > ceil($totalItems / $numItemsPerPage));
+        
+        // pages
+        $numPages = ceil($totalItems / $numItemsPerPage);
+        $currentPage = ($isOutOfBounds) ? 1 : $currentPage; // go to page 1 if out of bounds
+        $previousPage = ($currentPage == 1) ? $numPages : $currentPage - 1; // flip around if at the beginning
+        $nextPage = ($currentPage == $numPages) ? 1 : $currentPage + 1; // flip around if at the end
+        $firstPage = 1;
+        $lastPage = $numPages;
+
+        // num items on current page
+        if($currentPage == $numPages && $currentPage > 1)
+        {
+            $numItemsOnCurrentPage = $totalItems % $numItemsPerPage;
+        }
+        else if($totalItems < $numItemsPerPage)
+        {
+            $numItemsOnCurrentPage = $totalItems;
+        }
+        else {
+            $numItemsOnCurrentPage = $numItemsPerPage;
+        }
+
+        // indices (start at 0)
+        $offset = ($currentPage - 1) * $numItemsPerPage;
+        $last = $offset + $numItemsOnCurrentPage - 1;
+
+        // items
+        $firstItemOnCurrentPage = $offset + 1;
+        $lastItemOnCurrentPage = $last + 1;
+
+        // set instance vars
+        $this->isOutOfBounds = $isOutOfBounds;
+        $this->totalItems = (int) $totalItems;
+        $this->numItemsPerPage = (int) $numItemsPerPage;
+        $this->numItemsOnCurrentPage = (int) $numItemsOnCurrentPage;
+        $this->firstItemOnCurrentPage = (int) $firstItemOnCurrentPage;
+        $this->lastItemOnCurrentPage = (int) $lastItemOnCurrentPage;
+        $this->numPages = (int) $numPages;
+        $this->currentPage = (int) $currentPage;
+        $this->previousPage = (int) $previousPage;
+        $this->nextPage = (int) $nextPage;
+        $this->firstPage = (int) $firstPage;
+        $this->lastPage = (int) $lastPage;
+        $this->offset = (int) $offset;
+        $this->last = (int) $last;
+        return $this;
+    }
+
+    public function getNumItems() { return $this->getNumItemsPerPage(); }
     public function isOutOfBounds() { return $this->isOutOfBounds; }
-    public function getNumItems() { return $this->numItems; }
+    public function getTotalItems() { return $this->totalItems; }
     public function getNumItemsPerPage() { return $this->numItemsPerPage; }
     public function getNumItemsOnCurrentPage() { return $this->numItemsOnCurrentPage; }
     public function getFirstItemOnCurrentPage() { return $this->firstItemOnCurrentPage; }
@@ -149,7 +214,7 @@ abstract class AbstractPaginator
     {
         return array(
             'isOutOfBounds' => $this->isOutOfBounds(),
-            'numItems' => $this->getNumItems(),
+            'totalItems' => $this->getTotalItems(),
             'numItemsPerPage' => $this->getNumItemsPerPage(),
             'numItemsOnCurrentPage' => $this->getNumItemsOnCurrentPage(),
             'firstItemOnCurrentPage' => $this->getFirstItemOnCurrentPage(),
@@ -176,7 +241,7 @@ abstract class AbstractPaginator
     {
         $params = $this->params;
 
-        if($this->getNumItems())
+        if($this->getTotalItems())
         {
             $params[$this->pageParam] = $page;
         }
@@ -185,70 +250,4 @@ abstract class AbstractPaginator
         return $this->baseUrl.(($query) ? '?'.$query : '');
     }
 
-    protected function calculate($numItems, $currentPage, $numItemsPerPage)
-    {
-        $this->isOutOfBounds = ($currentPage > ceil($numItems / $numItemsPerPage));
-
-        if(!$numItems)
-        {
-            $this->numItems = 0;
-            $this->numItemsPerPage = $numItemsPerPage;
-            $this->numItemsOnCurrentPage = 0;
-            $this->firstItemOnCurrentPage = null;
-            $this->lastItemOnCurrentPage = null;
-            $this->numPages = 0;
-            $this->currentPage = null;
-            $this->previousPage = null;
-            $this->nextPage = null;
-            $this->firsttPage = null;
-            $this->lastPage = null;
-            $this->offset = null;
-            $this->last = null;
-            return;
-        }
-
-        // pages
-        $numPages = ceil($numItems / $numItemsPerPage);
-        $currentPage = ($this->isOutOfBounds) ? 1 : $currentPage; // go to page 1 if out of bounds
-        $previousPage = ($currentPage == 1) ? $numPages : $currentPage - 1; // flip around if at the beginning
-        $nextPage = ($currentPage == $numPages) ? 1 : $currentPage + 1; // flip around if at the end
-        $firstPage = 1;
-        $lastPage = $numPages;
-
-        // num items on current page
-        if($currentPage == $numPages && $currentPage > 1)
-        {
-            $numItemsOnCurrentPage = $numItems % $numItemsPerPage;
-        }
-        else if($numItems < $numItemsPerPage)
-        {
-            $numItemsOnCurrentPage = $numItems;
-        }
-        else {
-            $numItemsOnCurrentPage = $numItemsPerPage;
-        }
-
-        // indices (start at 0)
-        $offset = ($currentPage - 1) * $numItemsPerPage;
-        $last = $offset + $numItemsOnCurrentPage - 1;
-
-        // items
-        $firstItemOnCurrentPage = $offset + 1;
-        $lastItemOnCurrentPage = $last + 1;
-
-        // set instance vars
-        $this->numItems = (int) $numItems;
-        $this->numItemsPerPage = (int) $numItemsPerPage;
-        $this->numItemsOnCurrentPage = (int) $numItemsOnCurrentPage;
-        $this->firstItemOnCurrentPage = (int) $firstItemOnCurrentPage;
-        $this->lastItemOnCurrentPage = (int) $lastItemOnCurrentPage;
-        $this->numPages = (int) $numPages;
-        $this->currentPage = (int) $currentPage;
-        $this->previousPage = (int) $previousPage;
-        $this->nextPage = (int) $nextPage;
-        $this->firstPage = (int) $firstPage;
-        $this->lastPage = (int) $lastPage;
-        $this->offset = (int) $offset;
-        $this->last = (int) $last;
-    }
 }

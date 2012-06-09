@@ -1,7 +1,7 @@
 {
     "name": "sirprize/paginate",
     "type": "library",
-    "description": "Keep track of indices, items and pages when slicing lists of a known length",
+    "description": "Normalize an index range from user input",
     "keywords": ["pager", "pagination", "paginator"],
     "homepage": "https://github.com/sirprize/paginate",
     "license": "MIT",
