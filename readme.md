@@ -48,7 +48,8 @@ Normalize an index range from user input
     $i = new PageInput(45, 100); // $currentPage, $numItemsPerPage
     $i->setDefaultNumItems(25)->setMaxItems(100); // set defaults and limits
 	$r = new PageRange($i);
-    $p = new Paginator($r->setTotalItems(189678));
+    $r->setTotalItems(189678);
+    $p = new Paginator($r);
 	$p->setBaseUrl('/products')
 	$p->setPageParam('p');
 
