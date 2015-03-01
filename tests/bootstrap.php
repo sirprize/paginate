@@ -16,6 +16,6 @@ require_once __DIR__ . '/../lib/Sirprize/Paginate/Range/RangeInterface.php';
 require_once __DIR__ . '/../lib/Sirprize/Paginate/Range/AbstractRange.php';
 require_once __DIR__ . '/../lib/Sirprize/Paginate/Range/PageRange.php';
 require_once __DIR__ . '/../lib/Sirprize/Paginate/Range/IndexRange.php';
-require_once __DIR__ . '/../lib/Sirprize/Paginate/Range/RangeFactory.php';
+require_once __DIR__ . '/../lib/Sirprize/Paginate/Range/RangeTypeDetector.php';
 require_once __DIR__ . '/../lib/Sirprize/Paginate/Range/SliceRange.php';
 require_once __DIR__ . '/../lib/Sirprize/Paginate/Paginator.php';

@@ -12,11 +12,11 @@ use Sirprize\Paginate\Input\PageInput;
 use Sirprize\Paginate\Input\RangeHeaderInput;
 
 /**
- * RangeFactory.
+ * RangeTypeDetector.
  *
  * @author Christian Hoegl <chrigu@sirprize.me>
  */
-class RangeFactory
+class RangeTypeDetector
 {
     protected $pageInput = null;
     protected $rangeHeaderInput = null;
