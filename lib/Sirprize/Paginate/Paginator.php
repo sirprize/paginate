@@ -185,29 +185,29 @@ class Paginator
         return $this->baseUrl;
     }
 
-    public function getCurrentPageUrl($argSep = '&')
+    public function getCurrentPageUrl($argSep = '&', $params = array())
     {
-        return $this->makeUrl($this->getCurrentPage(), $argSep);
+        return $this->makeUrl($this->getCurrentPage(), $argSep, $params);
     }
 
-    public function getNextPageUrl($argSep = '&')
+    public function getNextPageUrl($argSep = '&', $params = array())
     {
-        return $this->makeUrl($this->getNextPage(), $argSep);
+        return $this->makeUrl($this->getNextPage(), $argSep, $params);
     }
 
-    public function getPreviousPageUrl($argSep = '&')
+    public function getPreviousPageUrl($argSep = '&', $params = array())
     {
-        return $this->makeUrl($this->getPreviousPage(), $argSep);
+        return $this->makeUrl($this->getPreviousPage(), $argSep, $params);
     }
 
-    public function getFirstPageUrl($argSep = '&')
+    public function getFirstPageUrl($argSep = '&', $params = array())
     {
-        return $this->makeUrl($this->getFirstPage(), $argSep);
+        return $this->makeUrl($this->getFirstPage(), $argSep, $params);
     }
 
-    public function getLastPageUrl($argSep = '&')
+    public function getLastPageUrl($argSep = '&', $params = array())
     {
-        return $this->makeUrl($this->getLastPage(), $argSep);
+        return $this->makeUrl($this->getLastPage(), $argSep, $params);
     }
 
     public function toArray()
@@ -237,9 +237,12 @@ class Paginator
         );
     }
 
-    protected function makeUrl($page, $argSep)
+    protected function makeUrl($page, $argSep, $params)
     {
-        $params = $this->params;
+        if($params !== false)
+        {
+            $params = $this->params;
+        }
 
         if($this->getTotalItems())
         {
