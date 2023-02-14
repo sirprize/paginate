@@ -9,8 +9,9 @@
 namespace Sirprize\Tests\Paginate\Range;
 
 use Sirprize\Paginate\Range\RangeTypeDetector;
+use PHPUnit\Framework\TestCase;
 
-class RangeTypeDetectorTest extends \PHPUnit_Framework_TestCase
+class RangeTypeDetectorTest extends TestCase
 {
     public function testPageRange()
     {

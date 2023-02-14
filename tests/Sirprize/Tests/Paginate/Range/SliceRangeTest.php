@@ -9,8 +9,9 @@ namespace Sirprize\Tests\Paginate\Range;
 
 use Sirprize\Paginate\Input\SliceInput;
 use Sirprize\Paginate\Range\SliceRange;
+use PHPUnit\Framework\TestCase;
 
-class SliceRangeTest extends \PHPUnit_Framework_TestCase
+class SliceRangeTest extends TestCase
 {
     public function test10Items()
     {

@@ -9,8 +9,9 @@ namespace Sirprize\Tests\Paginate\Range;
 
 use Sirprize\Paginate\Input\IndexInput;
 use Sirprize\Paginate\Range\IndexRange;
+use PHPUnit\Framework\TestCase;
 
-class IndexRangeTest extends \PHPUnit_Framework_TestCase
+class IndexRangeTest extends TestCase
 {
 
     public function test10Items()

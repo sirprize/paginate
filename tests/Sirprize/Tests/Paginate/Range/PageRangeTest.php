@@ -9,8 +9,9 @@ namespace Sirprize\Tests\Paginate\Range;
 
 use Sirprize\Paginate\Input\PageInput;
 use Sirprize\Paginate\Range\PageRange;
+use PHPUnit\Framework\TestCase;
 
-class PageRangeTest extends \PHPUnit_Framework_TestCase
+class PageRangeTest extends TestCase
 {
     public function testFirstPage()
     {

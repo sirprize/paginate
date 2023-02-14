@@ -9,8 +9,9 @@
 namespace Sirprize\Tests\Paginate\Input;
 
 use Sirprize\Paginate\Input\PageInput;
+use PHPUnit\Framework\TestCase;
 
-class PageInputTest extends \PHPUnit_Framework_TestCase
+class PageInputTest extends TestCase
 {
     public function testPage()
     {

@@ -9,8 +9,9 @@
 namespace Sirprize\Tests\Paginate\Input;
 
 use Sirprize\Paginate\Input\RangeHeaderInput;
+use PHPUnit\Framework\TestCase;
 
-class RangeHeaderInputTest extends \PHPUnit_Framework_TestCase
+class RangeHeaderInputTest extends TestCase
 {
     public function testIndexRange()
     {

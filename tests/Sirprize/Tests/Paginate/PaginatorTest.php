@@ -10,8 +10,9 @@ namespace Sirprize\Tests\Paginate;
 use Sirprize\Paginate\Input\PageInput;
 use Sirprize\Paginate\Range\PageRange;
 use Sirprize\Paginate\Paginator;
+use PHPUnit\Framework\TestCase;
 
-class PaginatorTest extends \PHPUnit_Framework_TestCase
+class PaginatorTest extends TestCase
 {
     public function testCurrentPageNoItems()
     {
