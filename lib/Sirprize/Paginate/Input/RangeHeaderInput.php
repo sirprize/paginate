@@ -19,7 +19,7 @@ class RangeHeaderInput extends IndexInput
 
     public function __construct($rangeHeader)
     {
-        if(preg_match('/^\w+=(\d*)-(\d*)$/', $rangeHeader, $matches))
+        if(preg_match('/^\w+=(\d*)-(\d*)$/', $rangeHeader ?: '', $matches))
         {
             $this->offset = (int) $matches[1];
             $this->last = (int) $matches[2];
